@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block search %}
+
+    <form class="mx-auto w-25 pt-3 pb-3" action="/reset_pass" method="post">
+        <div class="text-center mt-4">
+            <label for="reset_email" class="form-label">Zadejte prosím svůj e-mail:</label>
+            <input name="reset_email" type="text" class="form-control" id="reset_email" placeholder="E-mail..." 
+            data-bs-toggle="tooltip" data-bs-placement="left" 
+            title="E-mailová adresa musí být platná: cosi@domena.abc."
+            required>
+        </div>
+        <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-outline-dark">
+                Obnovit heslo
+            </button>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <!-- Bootstrap script to show tooltips -->
+    <script src="../static/tooltips.js"></script>
+
+{% endblock %}

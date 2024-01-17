@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="cs">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <meta name="description=" content="Databáze profesionálních literárních překladatelů sdružených pod českou asociací Obec překladatelů. Seznamte se s předními jmény v oboru a jejich díly.">
+        <title>Obec překladatelů | Databáze</title>
+        <link rel="icon" type="image/x-icon" href="static/favicon.ico">
+
+        <!-- Bootstrap 5.3 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        
+        <!-- Individual CSS from templates -->
+        {% block links %}
+        {% endblock %}
+
+        <!-- Custom CSS -->
+        <link href="../static/styles.css" rel="stylesheet">
+    </head>
+    <body>
+        <!-- Background image -->
+        <div class="z-n1 position-absolute">  
+            <img src="../static/bg_greet.jpg" class="img-fluid opacity-50 min-vw-100" alt="background">
+        </div>
+
+        <!-- !!! Temporary alert that the database is an unauthorized prototype !!! -->
+        <div class="alert alert-dark fade show text-center sticky-top" role="alert">
+            <strong>UPOZORNĚNÍ:</strong> Tato databáze je NEOFICIÁLNÍ PROTOTYP sloužící jako ukázka projektu.
+        </div>
+
+        <!-- Main content container -->
+            <div class="z-0 container mx-auto pt-5">
+                <div class="row shadow rounded text-bg-light">
+
+                    <!-- Navbar -->
+                    <nav class="navbar rounded-top shadow-sm navbar-expand-lg border-bottom border-danger border-5" style="background-color: #FFFFFF;">              
+                        <div class="container-fluid ">
+                            <div class="navbar-brand pe-4">
+                                <a href="http://obecprekladatelu.cz"><img src="../static/logo.png" class="img-fluid" alt="Databáze Obce překladatelů — logo"></a>
+                            </div>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                                <div class="navbar-nav me-auto">
+                                <a class="nav-link" aria-current="page" href="/browse"><h1 class="display-6">PROHLÍŽET</h1></a>
+                                <div class="vr d-none d-lg-inline me-5 ms-5"></div>
+                                <a class="nav-link" href="/contact"><h1 class="display-6">KONTAKT</h1></a>
+
+                                <!-- Add links for small screens -->
+                                {% if session["user_id"] %}
+                                <a class="nav-link d-inline d-md-none" href="/my_books">Moje knihy</a>
+                                <a class="nav-link d-inline d-md-none" href="/my_bio">Můj medailon</a>
+                                <a class="nav-link d-inline d-md-none" href="/my_account">Můj účet</a>
+                                <a class="nav-link d-inline d-md-none" href="/logout">Odhlásit</a>
+
+                                {% else %}
+                                <a class="nav-link d-inline d-md-none" href="/login_sm"><h1 class="display-6">PŘIHLÁSIT</h1></a>
+                                {% endif %}
+                                                    
+                                </div>
+                            </div>
+                            <a class="pe-3" href="https://www.facebook.com/obecprekladatelu/" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </nav>
+                        
+                    <!-- Side user menu -->
+                    <nav class="nav flex-sm-column bg-primary bg-gradient shadow-sm text-light link-light d-none d-lg-inline" style="width: 15%;">
+                        {% if session["user_id"] %}
+                            <a class="nav-link active link-light mt-3" aria-current="page" href="/my_books">Moje knihy</a>
+                            <a class="nav-link link-light" href="/my_bio">Můj medailon</a>
+                            <a class="nav-link link-light" href="/my_account">Můj účet</a>
+                            <a class="nav-link link-light" href="/logout">Odhlásit</a>
+                        {% else %}
+                        <div class="mt-3 ms-3">
+                            <form action="/" method="post">
+                                <div class="mt-3">
+                                    <label for="login_username" class="form-label">Jméno</label>
+                                    <input name="login_username" type="text" class="form-control" id="login_username" placeholder="Jméno..." required>
+                                </div>
+                                <div class="mt-3">
+                                    <label for="login_password" class="form-label">Heslo</label>
+                                    <input name="login_password" type="password" class="form-control" id="login_password" placeholder="Heslo..." required>
+                                </div>
+                                <div class="mt-3 text-center">
+                                    <a class="link-light link-opacity-50 link-underline-opacity-50" href="/reset_pass">Zapomněli jste heslo?</a>
+                                </div>
+                                <div class="mt-4 mb-4 text-center">
+                                    <button type="submit" class="btn btn-light">
+                                        Přihlásit
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </nav>
+                    
+                    <!-- Flashing messages informing the user of the results -->
+                    <div class="col">
+                        {% if get_flashed_messages() %}
+
+                            <div class="alert alert-warning alert-dismissable fade show text-center" role="alert">
+                                {{ get_flashed_messages() | join("<br>") | safe }}
+                                <button type="button" class="btn-close d-flex float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+
+                        {% endif %}
+
+                    <!-- Main content -->
+                        {% block search %}                        
+                        {% endblock %}
+                    
+                        {% block random %}
+                        {% endblock %}
+                    </div>
+
+                    <!-- Page footer -->
+                    <footer class="rounded-bottom p-2 text-center text-bg-dark">
+                        <a class="link-light link-opacity-50-hover" href="/acknowledgement"> (c) Vojtěch Ettler 2023 </a> | <a class="link-light link-opacity-50-hover" href="/gdpr"> GDPR </a>
+                    </footer>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        
+        <!-- Scripts from individual templates -->
+        {% block scripts %}
+        {% endblock %}
+    </body>
+
+</html>

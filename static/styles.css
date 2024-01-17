@@ -1,0 +1,13 @@
+#wrap {
+  word-wrap: break-word; 
+  min-width: 150px; 
+  max-width: 200px;
+}
+
+.large_input {
+  width: 400px; /* whatever you want */
+}
+
+.medium_input {
+  width: 300px; /* whatever you want */
+}

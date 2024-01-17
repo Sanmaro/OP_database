@@ -1,0 +1,109 @@
+{% extends "layout.html" %}
+
+{% block links %}
+
+    <!-- Linking to DataTables stylesheet (for making the search table interactive and pretty) -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+
+{% endblock %}
+
+{% block search %}
+
+    <div class="row">
+        <div class="col-12 mt-2 mb-2 pt-2 pb-2">
+            <h3 class="text-center">Moje knihy</h3>
+            <form action="/my_books_add" method="post">
+                <div class="d-inline-flex w-100 mt-5 mb-3">
+                    <input class="form-control me-2" type="text" name="title" placeholder="Název knihy..." required>
+                    <input class="form-control me-2" type="text" name="author" placeholder="Jméno autora..." required>
+                    <input class="form-control me-2 w-50" type="text" name="publisher" placeholder="Nakladatel...">
+                    <input class="form-control me-2 w-50" type="text" name="year" placeholder="Rok vydání...">      
+                    <input class="form-control w-50" type="text" name="pages" placeholder="Počet stran...">
+                </div>
+                <div class="mb-4 text-center">
+                    <button type="submit" class="btn btn-outline-dark">
+                        Přidat novou knihu
+                    </button>
+                </div>
+            </form>
+            <!-- Toggling column visibility (experimental). See also scripts below. -->
+            <!-- <div >
+                <a class="toggle-vis" data-column="1">Titul</a> - 
+                <a class="toggle-vis" data-column="2">Přeložil/a</a> - 
+                <a class="toggle-vis" data-column="3">Napsal/a</a> - 
+                <a class="toggle-vis" data-column="4">Vydal</a> - 
+                <a class="toggle-vis" data-column="5">Rok</a> -
+                <a class="toggle-vis" data-column="5">Stran</a>
+            </div> -->
+            <form action="/my_books" method="post">
+            <div class="table-responsive">
+                <table 
+                id="my_books"
+                data-show-columns="true"
+                data-search="true"
+                data-show-toggle="true"
+                data-pagination="true"
+                data-reorderable-columns="true"
+                class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th class="w-25" data-field="title" scope="col" data-sortable="true">Titul</th>
+                        <th data-field="translator" scope="col" data-sortable="true">Přeložil/a</th>
+                        <th data-field="author" scope="col" data-sortable="true">Napsal/a</th>
+                        <th data-field="publisher" scope="col" data-sortable="true">Vydal</th>
+                        <th data-field="year" scope="col" data-sortable="true">Rok</th>
+                        <th data-field="pages" scope="col" data-sortable="true">Stran</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        
+                    {% for book in my_books %}       
+                        <tr>
+                            <td class="fw-bold number"></td>
+                            <td class="fst-italic">
+                                <input class="form-control change-input-title" type="text" name="title.{{ book['id'] }}" value='{{ book["title"] }}'>
+                            </td>
+                            <td class="table-active">{{ book["translator"] }}</td>
+                            <td>
+                                <input class="form-control change-input-author" type="text" name="author.{{ book['id'] }}" value='{{ book["author"] }}'>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="publisher.{{ book['id'] }}" value='{{ book["publisher"] }}'>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="year.{{ book['id'] }}" value='{{ book["published"] }}'>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="pages.{{ book['id'] }}" value='{{ book["pages"] }}'>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4 text-center">
+                <button type="submit" class="btn btn-outline-dark">
+                    Změnit
+                </button>
+            </div>
+        </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <!-- Scripts to make the table orderable and interactive -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    
+    <!-- Order table by input fields (NOT WORKING) -->
+    <!-- <script src="https//cdn.datatables.net/plug-ins/1.13.7/sorting/custom-data-source/dom-text.js"></script> -->
+
+    <!-- Initializing the table, removing ordering option from the first column and localising the table into Czech  -->
+    <script src="../static/my_books.js"></script>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block search %}
+
+    <h3 class="text-center mt-3">Můj účet</h3>
+    <form class="mx-auto w-25 pt-3 pb-3" action="/my_account" method="post">
+        <div class="mt-3">
+            <label for="login_name" class="form-label">Jméno</label>
+            <input name="login_name" type="text" class="form-control" id="login_name" placeholder="{{ name }}" disabled>
+        </div>
+        <div class="mt-3">
+            <label for="role" class="form-label">Role</label>
+            <input name="role" type="text" class="form-control" id="role" placeholder="{{ role }}" disabled>
+        </div>
+        <div class="mt-3">
+            <label for="new_username" class="form-label">Uživatelské jméno</label>
+            <input name="new_username" type="text" class="form-control" id="new_username" placeholder="{{ username }}">
+        </div>
+        <div class="mt-3">
+            <label for="new_email" class="form-label">E-mail</label>
+            <input name="new_email" type="text" class="form-control" id="new_email" placeholder="{{ email }}"
+            data-bs-toggle="tooltip" data-bs-placement="left" 
+            title="E-mailová adresa musí být platná: cosi@domena.abc.">
+        </div>
+        <div class="mt-3">
+            <label for="old_password" class="form-label">Staré heslo</label>
+            <input name="old_password" type="password" class="form-control" id="old_password" placeholder="Heslo...">
+        </div>
+        <div class="mt-3">
+            <label for="new_password" class="form-label">Nové heslo</label>
+            <input name="new_password" type="password" class="form-control" id="new_password" placeholder="Nové heslo..." 
+            data-bs-toggle="tooltip" data-bs-placement="left" 
+            title="Heslo musí být dlouhé alespoň čtyři znaky a musí obsahovat alespoň jedno velké písmeno, jedno malé písmeno a jednu číslici.">
+        </div>
+        <div class="mt-3">
+            <label for="new_password_conf" class="form-label">Nové heslo znovu</label>
+            <input name="new_password_conf" type="password" class="form-control" id="new_password_conf" placeholder="Nové heslo...">
+        </div>
+        <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-outline-dark">
+                Změnit
+            </button>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <!-- Bootstrap script to show tooltips -->
+    <script src="../static/tooltips.js"></script>
+    
+{% endblock %}

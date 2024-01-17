@@ -1,0 +1,14 @@
+-- database: d:\Coding\Web\op_database\translators.db
+
+-- Use the ▷ button in the top right corner to run the entire file.
+
+SELECT * FROM "books";
+
+UPDATE books SET 
+	title=(SELECT Title FROM books_temp WHERE Id=books.id), 
+	author=(SELECT Author FROM books_temp WHERE Id=books.id),
+	publisher=(SELECT Publisher FROM books_temp WHERE Id=books.id),
+	published=(SELECT Published FROM books_temp WHERE Id=books.id),
+	pages=(SELECT Pages FROM books_temp WHERE Id=books.id)
+		WHERE id IN 
+			(SELECT Id FROM books_temp);
